@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spot-app
+  namespace: spot-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spot-app
+  template:
+    metadata:
+      labels:
+        app: spot-app
+    spec:
+      affinity:
+        nodeAffinity:
+          # Hard requirement (e.g., OS must be Linux)
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+          # Prefer Spot nodes when available
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: cloud.google.com/gke-spot
+                    operator: In
+                    values:
+                      - "true"
+      tolerations:
+        # Allow running on OnDemand if Spot isn't available
+        - key: "type"
+          operator: "Equal"
+          value: "on-demand"
+          effect: "PreferNoSchedule"
+      containers:
+        - name: spot-app
+          image: nginx:latest
+          ports:
+            - containerPort: 80

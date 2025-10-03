@@ -1,0 +1,25 @@
+gcloud projects create testing-env --name="test-env-for-spot-ondemand-poc" --set-as-default
+gcloud config set project gke-mixing-spot-ondemand-poc
+gcloud config set project test-env-for-spot-ondemand-poc
+gcloud auth application-default set-quota-project test-env-for-spot-ondemand-poc
+gcloud auth application-default set-quota-project gke-mixing-spot-ondemand-poc
+gcloud services enable container.googleapis.com compute.googleapis.com containerregistry.googleapis.com
+------------------------------
+gcloud config list
+gcloud services list --enabled --project test-env-for-spot-ondemand-poc
+
+
+doskey tf=terraform $*
+
+--------------------fresh-start---------------
+tf init
+tf plan -out=tfplan
+tf apply tfplan
+
+----
+tf init
+tf plan -out=tfplan
+tf apply tfplan
+
+----------
+gcloud container clusters get-credentials test-cluster --zone us-central1-a --project gke-mixing-spot-ondemand-poc

@@ -1,0 +1,31 @@
+gcloud auth list
+gcloud auth login
+gcloud config set account kishore.kunal@estuate.com
+gcloud config set account kunal.kishore@mattel.com
+
+
+  17 gcloud config configurations create mattel
+  18 gcloud config configurations activate mattel
+  19 gcloud config set account kunal.kishore@mattel.com
+  20 gcloud config configurations create estuate
+  21 gcloud config configurations activate estuate
+  22 gcloud config set account kishore.kunal@estuate.com
+  23 gcloud config configurations list
+  24 gcloud projects list
+  25 gcloud config set project gke-mixing-spot-ondemand-poc
+gcloud config set project test-env-for-spot-ondemand-poc" --set-as-default
+  26 gcloud config list
+  27 gcloud config set compute/region us-central1
+------------------------------------
+gcloud --version
+gcloud config list
+gcloud projects list
+gcloud auth list
+gcloud beta billing projects describe gke-mixing-spot-ondemand-poc
+gcloud beta billing projects describe test-env-for-spot-ondemand-poc
+
+gcloud services list --enabled
+
+  -------------------------
+  gcloud 
+  gcloud config configurations activate mattel
